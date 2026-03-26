@@ -59,7 +59,7 @@ class BusinessLogAnalyzer:
 
     def analyze(self, lines) -> dict:
         """
-        Analyse an iterable of log lines.
+        Analyze an iterable of log lines.
 
         Returns a result dict with keys:
         ``total``, ``by_level``, ``error_rate``, ``errors``,

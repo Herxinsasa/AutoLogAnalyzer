@@ -192,7 +192,12 @@ class LogParser:
         # Syslog has no year; use current year
         ts = self._parse_ts_string(ts_str, fmt="%b %d %H:%M:%S")
         if ts is not None:
-            ts = ts.replace(year=datetime.now().year)
+            current = datetime.now()
+            ts = ts.replace(year=current.year)
+            # Guard against year-boundary issues: if the parsed date appears
+            # more than 7 days in the future it was likely from the previous year.
+            if (ts - current).days > 7:
+                ts = ts.replace(year=current.year - 1)
         return LogEntry(
             raw=line,
             timestamp=ts,
